@@ -49,7 +49,7 @@ class MainWindow(QMainWindow):
         # Vars :==================================================================
         self.FirstMove=1
         self.sizeX,self.sizeY=10,10
-        self.sizeBomb = 50
+        self.sizeBomb = 8
         self.items=[[btn(x,y) for x in range(self.sizeX)] for y in range(self.sizeY)]
         # layouts :================================================================
         # layout 1
@@ -79,23 +79,23 @@ class MainWindow(QMainWindow):
                 if( self.items[y][x].GetVal()=="*"):continue
                 count=0
                 print(f"#setting value of ({y};{x})")
-                if( (y-1)>=0 and (x-1)>=0 and self.items[y-1][x-1].GetVal()=="*"):
+                if( y>1 and x>1 and self.items[y-1][x-1].GetVal()=="*"):
                     count+=1
                     print(f"     donne {y-1},{x-1}")
                 
                  
-                if( (y-1)>=0 and self.items[y-1][x].GetVal()=="*"):
+                if( y>1 and self.items[y-1][x].GetVal()=="*"):
                     count+=1
                     print(f"     donne {y-1},{x}")
                 
                  
-                if( (y-1)>=0 and (x+1)<window.sizeX and self.items[y-1][x+1].GetVal()=="*"):
+                if( y>1 and (x+1)<window.sizeX and self.items[y-1][x+1].GetVal()=="*"):
                     count+=1
                     print(f"     donne {y-1},{x+1}")
                 
                 # =================================================
                  
-                if( (y+1)<window.sizeY and (x-1)>=0 and self.items[y+1][x-1].GetVal()=="*"):
+                if( (y+1)<window.sizeY and x>1 and self.items[y+1][x-1].GetVal()=="*"):
                     count+=1
                     print(f"     donne {y+1},{x-1}")
                 
@@ -111,7 +111,7 @@ class MainWindow(QMainWindow):
                 
                 # =================================================
                  
-                if( (x-1)>=0 and self.items[y][x-1].GetVal()=="*"):
+                if( x>1 and self.items[y][x-1].GetVal()=="*"):
                     count+=1
                     print(f"     donne {y},{x-1}")
                 

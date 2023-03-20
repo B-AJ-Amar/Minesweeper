@@ -18,7 +18,8 @@ class btn(QPushButton):
     
     # def flag:
         
-    def SetVal(self,val):       
+    def SetVal(self,val): 
+        print(f"SetVal : ({self.x};{self.y}) = {val}")      
         self.value=val
         
     def GetVal(self):       
@@ -32,6 +33,7 @@ class btn(QPushButton):
             window.FirstMove=0
             window.MakeBombs(self.x,self.y)
             window.SetValues()
+            window.revealall()
         
         print(self.value)
         self.setText( str(self.value) )
@@ -73,48 +75,47 @@ class MainWindow(QMainWindow):
     def SetValues(self):    
         for y in range(self.sizeY):
             for x in range(self.sizeX):
+                
+                if( self.items[y][x].GetVal()=="*"):continue
                 count=0
-                if( self.items[x][y].GetVal()=="*"):continue
                 try: 
-                    if( self.items[x-1][y-1].GetVal()=="*"):count+=1
+                    if( self.items[y-1][x-1].GetVal()=="*"):count+=1
                 except:pass
                 try: 
-                    if( self.items[x][y-1].GetVal()=="*"):count+=1
+                    if( self.items[y-1][x].GetVal()=="*"):count+=1
                 except:pass
                 try: 
-                    if( self.items[x+1][y-1].GetVal()=="*"):count+=1
-                except:pass
-                # =================================================
-                try: 
-                    if( self.items[x-1][y+1].GetVal()=="*"):count+=1
-                except:pass
-                try: 
-                    if( self.items[x][y+1].GetVal()=="*"):count+=1
-                except:pass
-                try: 
-                    if( self.items[x+1][y+1].GetVal()=="*"):count+=1
+                    if( self.items[y-1][x+1].GetVal()=="*"):count+=1
                 except:pass
                 # =================================================
                 try: 
-                    if( self.items[x-1][y].GetVal()=="*"):count+=1
+                    if( self.items[y+1][x-1].GetVal()=="*"):count+=1
+                except:pass
+                try: 
+                    if( self.items[y+1][x].GetVal()=="*"):count+=1
+                except:pass
+                try: 
+                    if( self.items[y+1][x+1].GetVal()=="*"):count+=1
+                except:pass
+                # =================================================
+                try: 
+                    if( self.items[y][x-1].GetVal()=="*"):count+=1
                 except:pass
                 
                 try: 
-                    if( self.items[x+1][y].GetVal()=="*"):count+=1
+                    if( self.items[y][x+1].GetVal()=="*"):count+=1
                 except:pass
-                self.items[x][y].SetVal(count)
+                self.items[y][x].SetVal(count)
                 
 
     def MakeBombs(self,x,y):
         c = self.sizeBomb
-        while c:
-                
+        while c:     
             tempx,tempy=randint(0,self.sizeX-1),randint(0,self.sizeY-1)
             if(abs(tempy-y)<=1 and abs(tempx-x)<=1): continue
-            if self.items[tempy][tempx].value!='*':
-                print(f"donne : {c}")
-                
-                self.items[tempy][tempx].value = '*'
+            if self.items[tempy][tempx].value!="*":
+                print(f"bomeb[{c}] ({tempy};{tempx})")
+                self.items[tempy][tempx].value = "*"
                 c-=1
         
     
@@ -126,7 +127,11 @@ class MainWindow(QMainWindow):
                 self.items[x][y].setEnabled(True)
                 window.FirstMove = 1
                 # reset time
-                
+    
+    def revealall(self):
+        for y in range(self.sizeY):
+            for x in range(self.sizeX):
+                self.items[x][y].reveal()         
                   
         
     

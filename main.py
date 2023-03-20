@@ -76,9 +76,9 @@ class MainWindow(QMainWindow):
         for y in range(self.sizeY):
             for x in range(self.sizeX):
                 
-                print(f"#setting value of ({y};{x})")
                 if( self.items[y][x].GetVal()=="*"):continue
                 count=0
+                print(f"#setting value of ({y};{x})")
                 if( (y-1)>=0 and (x-1)>=0 and self.items[y-1][x-1].GetVal()=="*"):
                     count+=1
                     print(f"     donne {y-1},{x-1}")
@@ -111,7 +111,7 @@ class MainWindow(QMainWindow):
                 
                 # =================================================
                  
-                if( (y+1)<window.sizeY and self.items[y][x-1].GetVal()=="*"):
+                if( (x-1)>=0 and self.items[y][x-1].GetVal()=="*"):
                     count+=1
                     print(f"     donne {y},{x-1}")
                 
@@ -119,7 +119,7 @@ class MainWindow(QMainWindow):
                  
                 if( (x+1)<window.sizeX and self.items[y][x+1].GetVal()=="*"):
                     count+=1
-                    print(f"     donne {y}{x+1}")
+                    print(f"     donne {y},{x+1}")
                 
                 self.items[y][x].SetVal(count)
                 

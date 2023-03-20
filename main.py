@@ -76,35 +76,51 @@ class MainWindow(QMainWindow):
         for y in range(self.sizeY):
             for x in range(self.sizeX):
                 
+                print(f"#setting value of ({y};{x})")
                 if( self.items[y][x].GetVal()=="*"):continue
                 count=0
-                try: 
-                    if( self.items[y-1][x-1].GetVal()=="*"):count+=1
-                except:pass
-                try: 
-                    if( self.items[y-1][x].GetVal()=="*"):count+=1
-                except:pass
-                try: 
-                    if( self.items[y-1][x+1].GetVal()=="*"):count+=1
-                except:pass
-                # =================================================
-                try: 
-                    if( self.items[y+1][x-1].GetVal()=="*"):count+=1
-                except:pass
-                try: 
-                    if( self.items[y+1][x].GetVal()=="*"):count+=1
-                except:pass
-                try: 
-                    if( self.items[y+1][x+1].GetVal()=="*"):count+=1
-                except:pass
-                # =================================================
-                try: 
-                    if( self.items[y][x-1].GetVal()=="*"):count+=1
-                except:pass
+                if( (y-1)>=0 and (x-1)>=0 and self.items[y-1][x-1].GetVal()=="*"):
+                    count+=1
+                    print(f"     donne {y-1},{x-1}")
                 
-                try: 
-                    if( self.items[y][x+1].GetVal()=="*"):count+=1
-                except:pass
+                 
+                if( (y-1)>=0 and self.items[y-1][x].GetVal()=="*"):
+                    count+=1
+                    print(f"     donne {y-1},{x}")
+                
+                 
+                if( (y-1)>=0 and (x+1)<window.sizeX and self.items[y-1][x+1].GetVal()=="*"):
+                    count+=1
+                    print(f"     donne {y-1},{x+1}")
+                
+                # =================================================
+                 
+                if( (y+1)<window.sizeY and (x-1)>=0 and self.items[y+1][x-1].GetVal()=="*"):
+                    count+=1
+                    print(f"     donne {y+1},{x-1}")
+                
+                 
+                if( (y+1)<window.sizeY and self.items[y+1][x].GetVal()=="*"):
+                    count+=1
+                    print(f"     donne {y+1},{x}")
+                
+                 
+                if( (y+1)<window.sizeY and (x+1)<window.sizeX and self.items[y+1][x+1].GetVal()=="*"):
+                    count+=1
+                    print(f"     donne {y+1},{x+1}")
+                
+                # =================================================
+                 
+                if( (y+1)<window.sizeY and self.items[y][x-1].GetVal()=="*"):
+                    count+=1
+                    print(f"     donne {y},{x-1}")
+                
+                
+                 
+                if( (x+1)<window.sizeX and self.items[y][x+1].GetVal()=="*"):
+                    count+=1
+                    print(f"     donne {y}{x+1}")
+                
                 self.items[y][x].SetVal(count)
                 
 

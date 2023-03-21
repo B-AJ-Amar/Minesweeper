@@ -7,13 +7,13 @@ from header import *
 # Classes :=================================================
 class btn(QPushButton):
     def __init__(self,x,y):
+        super().__init__()
         self.value=None
         self.x,self.y=x,y
-        super().__init__()
-        self.setText("")
+        self.setText(" ")
         self.setEnabled(True)  # en/desabled
         self.setFixedSize(25,25)
-        self.clicked.connect(self.reveal)
+        self.clicked.connect(lambda : window.rec_reveal(self.x,self.y))
         
     
     # def flag:
@@ -27,18 +27,14 @@ class btn(QPushButton):
         
     def flag(sef): # *flag icon
         pass
-      
-    def reveal(self): # !recursive
-        if window.FirstMove:
-            window.FirstMove=0
-            window.MakeBombs(self.x,self.y)
-            window.SetValues()
-            # window.revealall()
-        
-        print(self.value)
-       
+    
+    def reveal(self): 
+        self.setText( str(self.value) )
+        self.setEnabled(False)
         if self.value=="*": # *bombe icon
             return "lose"
+      
+   
 
         
         
@@ -71,9 +67,20 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(widget)
         
     # Functions :==========================================================
-    def rec_reveal(self,x : int,y : int):
-        print("rec")
-        if self.items[y][x].text()!=" "  :
+    def rec_reveal(self,x=0,y=0):
+        print("in rec_rev")
+        
+        if self.FirstMove:
+            print("in rec_rev/firstmove")
+            self.FirstMove=0
+            self.MakeBombs(x,y)
+            self.SetValues()
+            print("=================================",x,y)
+            # self.revealall()
+        print("in rec_rev/end firstmove")
+        
+        print(x,y)
+        if self.items[y][x].text()!=" " :
             print("     rec1")
             return 0
         if self.items[y][x].GetVal()=="*":
@@ -81,13 +88,15 @@ class MainWindow(QMainWindow):
             return 0
         elif int(self.items[y][x].GetVal())>0:
             print("     rec3")
-            window.rec_reveal(self.x,self.y)
-            self.items[y][x].setText( str(self.value) )
+            # self.rec_reveal(self.x,self.y)
+            self.items[y][x].setText( str(self.items[y][x].GetVal()) )
             self.items[y][x].setEnabled(False)
+            return 0
             
-        elif int(self.items[y][x].text())==0 :
-            window.rec_reveal(self.x,self.y)
-            self.items[y][x].setText( str(self.value) )
+        elif self.items[y][x].GetVal()==0 :
+            print("     rec3")
+            # self.rec_reveal(self.x,self.y)
+            self.items[y][x].setText( str(self.items[y][x].GetVal()) )
             self.items[y][x].setEnabled(False)
             if (x+1<self.sizeX): self.rec_reveal(x+1,y)
             if (x-1>=0): self.rec_reveal(x-1,y)
@@ -117,23 +126,23 @@ class MainWindow(QMainWindow):
                     print(f"     donne {y-1},{x}")
                 
                  
-                if( y>1 and (x+1)<window.sizeX and self.items[y-1][x+1].GetVal()=="*"):
+                if( y>1 and (x+1)<self.sizeX and self.items[y-1][x+1].GetVal()=="*"):
                     count+=1
                     print(f"     donne {y-1},{x+1}")
                 
                 # =================================================
                  
-                if( (y+1)<window.sizeY and x>1 and self.items[y+1][x-1].GetVal()=="*"):
+                if( (y+1)<self.sizeY and x>1 and self.items[y+1][x-1].GetVal()=="*"):
                     count+=1
                     print(f"     donne {y+1},{x-1}")
                 
                  
-                if( (y+1)<window.sizeY and self.items[y+1][x].GetVal()=="*"):
+                if( (y+1)<self.sizeY and self.items[y+1][x].GetVal()=="*"):
                     count+=1
                     print(f"     donne {y+1},{x}")
                 
                  
-                if( (y+1)<window.sizeY and (x+1)<window.sizeX and self.items[y+1][x+1].GetVal()=="*"):
+                if( (y+1)<self.sizeY and (x+1)<self.sizeX and self.items[y+1][x+1].GetVal()=="*"):
                     count+=1
                     print(f"     donne {y+1},{x+1}")
                 
@@ -145,7 +154,7 @@ class MainWindow(QMainWindow):
                 
                 
                  
-                if( (x+1)<window.sizeX and self.items[y][x+1].GetVal()=="*"):
+                if( (x+1)<self.sizeX and self.items[y][x+1].GetVal()=="*"):
                     count+=1
                     print(f"     donne {y},{x+1}")
                 
@@ -169,7 +178,7 @@ class MainWindow(QMainWindow):
                 self.items[x][y]=None
                 self.items[x][y].setText(" ")
                 self.items[x][y].setEnabled(True)
-                window.FirstMove = 1
+                self.FirstMove = 1
                 # reset time
     
     # def revealall(self):

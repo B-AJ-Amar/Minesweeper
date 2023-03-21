@@ -43,8 +43,8 @@ class MainWindow(QMainWindow):
         super().__init__()
         # Vars :==================================================================
         self.FirstMove=1
-        self.sizeX,self.sizeY=10,10
-        self.sizeBomb = 8
+        self.sizeX,self.sizeY=6,6
+        self.sizeBomb = 10
         self.items=[[btn(x,y) for x in range(self.sizeX)] for y in range(self.sizeY)]
         # layouts :================================================================
         # layout 1
@@ -113,26 +113,27 @@ class MainWindow(QMainWindow):
         for y in range(self.sizeY):
             for x in range(self.sizeX):
                 
+                print(f"#setting value of ({y};{x})= '{self.items[y][x].GetVal()}'")
                 if( self.items[y][x].GetVal()=="*"):continue
+                print(f"       !!! continue")
                 count=0
-                print(f"#setting value of ({y};{x})")
-                if( y>1 and x>1 and self.items[y-1][x-1].GetVal()=="*"):
+                if( y>=1 and x>=1 and self.items[y-1][x-1].GetVal()=="*"):
                     count+=1
                     print(f"     donne {y-1},{x-1}")
                 
                  
-                if( y>1 and self.items[y-1][x].GetVal()=="*"):
+                if( y>=1 and self.items[y-1][x].GetVal()=="*"):
                     count+=1
                     print(f"     donne {y-1},{x}")
                 
                  
-                if( y>1 and (x+1)<self.sizeX and self.items[y-1][x+1].GetVal()=="*"):
+                if( y>=1 and (x+1)<self.sizeX and self.items[y-1][x+1].GetVal()=="*"):
                     count+=1
                     print(f"     donne {y-1},{x+1}")
                 
                 # =================================================
                  
-                if( (y+1)<self.sizeY and x>1 and self.items[y+1][x-1].GetVal()=="*"):
+                if( (y+1)<self.sizeY and x>=1 and self.items[y+1][x-1].GetVal()=="*"):
                     count+=1
                     print(f"     donne {y+1},{x-1}")
                 
@@ -148,7 +149,7 @@ class MainWindow(QMainWindow):
                 
                 # =================================================
                  
-                if( x>1 and self.items[y][x-1].GetVal()=="*"):
+                if( x>=1 and self.items[y][x-1].GetVal()=="*"):
                     count+=1
                     print(f"     donne {y},{x-1}")
                 
@@ -181,10 +182,10 @@ class MainWindow(QMainWindow):
                 self.FirstMove = 1
                 # reset time
     
-    # def revealall(self):
-    #     for y in range(self.sizeY):
-    #         for x in range(self.sizeX):
-    #             self.items[x][y].reveal()         
+    def revealall(self):
+        for y in range(self.sizeY):
+            for x in range(self.sizeX):
+                self.items[x][y].text(str(self.items[x][y].value))        
                   
         
     

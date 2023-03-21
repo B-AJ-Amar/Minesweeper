@@ -33,14 +33,13 @@ class btn(QPushButton):
             window.FirstMove=0
             window.MakeBombs(self.x,self.y)
             window.SetValues()
-            window.revealall()
+            # window.revealall()
         
         print(self.value)
-        self.setText( str(self.value) )
-        self.setEnabled(False)
+       
         if self.value=="*": # *bombe icon
             return "lose"
-    
+
         
         
 class MainWindow(QMainWindow):
@@ -72,6 +71,35 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(widget)
         
     # Functions :==========================================================
+    def rec_reveal(self,x : int,y : int):
+        print("rec")
+        if self.items[y][x].text()!=" "  :
+            print("     rec1")
+            return 0
+        if self.items[y][x].GetVal()=="*":
+            print("     rec2")
+            return 0
+        elif int(self.items[y][x].GetVal())>0:
+            print("     rec3")
+            window.rec_reveal(self.x,self.y)
+            self.items[y][x].setText( str(self.value) )
+            self.items[y][x].setEnabled(False)
+            
+        elif int(self.items[y][x].text())==0 :
+            window.rec_reveal(self.x,self.y)
+            self.items[y][x].setText( str(self.value) )
+            self.items[y][x].setEnabled(False)
+            if (x+1<self.sizeX): self.rec_reveal(x+1,y)
+            if (x-1>=0): self.rec_reveal(x-1,y)
+            if (y+1<self.sizeY): self.rec_reveal(x,y+1)
+            if (y-1>=0): self.rec_reveal(x,y-1)
+
+            if (x-1>=0 and y-1>=0): self.rec_reveal(x-1,y-1)
+            if (x+1<self.sizeX and y+1<self.sizeY): self.rec_reveal(x+1,y+1)
+            if (x-1>=0 and y+1<self.sizeY): self.rec_reveal(x-1,y+1)
+            if (x+1<self.sizeX and y-1>=0): self.rec_reveal(x+1,y-1)
+       
+        
     def SetValues(self):    
         for y in range(self.sizeY):
             for x in range(self.sizeX):
@@ -144,10 +172,10 @@ class MainWindow(QMainWindow):
                 window.FirstMove = 1
                 # reset time
     
-    def revealall(self):
-        for y in range(self.sizeY):
-            for x in range(self.sizeX):
-                self.items[x][y].reveal()         
+    # def revealall(self):
+    #     for y in range(self.sizeY):
+    #         for x in range(self.sizeX):
+    #             self.items[x][y].reveal()         
                   
         
     

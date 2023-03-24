@@ -29,13 +29,12 @@ class btn(QPushButton):
                 # self.setText("RIGHT")
                 if not self.__flag:
                     self.__flag=1
-                    icon = QtGui.QIcon()
-                    icon.addPixmap(QtGui.QPixmap("C:\\Users\\Dell\\Desktop\\projects/python/Minesweeper/icons/flags/flag1.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.On)
-                    self.setIcon(icon)
-                    self.setIconSize(QtCore.QSize(20, 20))
+                    self.setText("")
                     self.setIcon(QIcon('./icons/flags/flag1.png'))
+                    self.setIconSize(QtCore.QSize(20, 20))
                 else:
                     self.__flag=0
+                    self.setText("")
                     self.setIcon(QIcon(''))
                     
                 # self.setIconSize(QSize(24,24))

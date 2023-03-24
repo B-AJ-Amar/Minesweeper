@@ -22,8 +22,9 @@ class btn(QPushButton):
         
         
     def mousePressEvent(self, event):
+        if window.ingame:   
             if event.button() == Qt.MouseButton.LeftButton:
-                window.rec_reveal(self.x,self.y)
+                window.rec_reveal(self.x,self.y,1)
 
             elif event.button() == Qt.MouseButton.RightButton:
                 # self.setText("RIGHT")
@@ -34,13 +35,9 @@ class btn(QPushButton):
                     self.setIconSize(QtCore.QSize(20, 20))
                 else:
                     self.__flag=0
-                    self.setText("")
+                    self.setText(" ")
                     self.setIcon(QIcon(''))
-                    
-                # self.setIconSize(QSize(24,24))
-            # elif event.button() == Qt.MouseButton.MiddleButton:
-            #     # handle the middle-button press in here.
-            #     self.setText("MIDDLE")
+              
     def GetFlag(self):
         return self.__flag 
       
@@ -69,9 +66,17 @@ class MainWindow(QMainWindow):
         super().__init__()
         # Vars :==================================================================
         self.FirstMove=1
+        self.ingame=1
+        self.time=0
+        
         self.sizeX,self.sizeY=10,10
         self.sizeBomb = 10
+        self.BombRest = self.sizeX*self.sizeX-self.sizeBomb
+        self.FlagRest = self.sizeBomb
+        
         self.items=[[btn(x,y) for x in range(self.sizeX)] for y in range(self.sizeY)]
+        self.__bombs=[]
+        
         # layouts :================================================================
         # layout 1
         
@@ -93,7 +98,7 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(widget)
         
     # Functions :==========================================================
-    def rec_reveal(self,x=0,y=0):
+    def rec_reveal(self,x=0,y=0,first_call=0):
         print("in rec_rev")
         
         if self.FirstMove:
@@ -106,11 +111,17 @@ class MainWindow(QMainWindow):
         print("in rec_rev/end firstmove")
         
         print(x,y)
-        if self.items[y][x].text()!=" " :
-            print("     rec1")
+        if self.items[y][x].GetFlag() :
+            print("     rec_flag")
             return 0
+        
         if self.items[y][x].GetVal()=="*":
             print("     rec2")
+            if first_call: self.lose()
+            return 0
+        
+        if self.items[y][x].text()!=" " :
+            print("     rec1")
             return 0
         elif int(self.items[y][x].GetVal())>0:
             print("     rec3")
@@ -195,7 +206,8 @@ class MainWindow(QMainWindow):
             if(abs(tempy-y)<=1 and abs(tempx-x)<=1): continue
             if self.items[tempy][tempx].GetVal()!="*":
                 print(f"bomeb[{c}] ({tempy};{tempx})")
-                self.items[tempy][tempx].SetVal("*") 
+                self.items[tempy][tempx].SetVal("*")
+                self.__bombs.append([tempy,tempx])
                 c-=1
         
     
@@ -205,9 +217,22 @@ class MainWindow(QMainWindow):
                 self.items[x][y]=None
                 self.items[x][y].setText(" ")
                 self.items[x][y].setEnabled(True)
-                self.FirstMove = 1
+        
+        self.time=0
+        self.FirstMove = 1
+        self.BombRest = self.sizeX*self.sizeX-self.sizeBomb
+        self.FlagRest = self.sizeBomb
                 # reset time
     
+    def lose(self):
+        self.ingame=0
+        for x in self.__bombs:
+            window.items[x[0]][x[1]].setText("")
+            window.items[x[0]][x[1]].setIcon(QIcon('./icons/bombs/mine1.png'))
+            window.items[x[0]][x[1]].setIconSize(QtCore.QSize(20, 20))
+            
+            
+        
     def revealall(self):
         for y in range(self.sizeY):
             for x in range(self.sizeX):

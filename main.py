@@ -79,6 +79,9 @@ class MainWindow(QMainWindow):
         self.items=[[btn(x,y) for x in range(self.sizeX)] for y in range(self.sizeY)]
         self.__bombs=[]
         
+        
+        self.setWindowTitle("Minesweeper")
+        self.setWindowIcon(QIcon("./icons/bombs/mine1.png"))
         # layouts :================================================================
         # layout 1
         
@@ -236,7 +239,7 @@ class MainWindow(QMainWindow):
         for x in self.__bombs:
             window.items[x[0]][x[1]].setText("")
             window.items[x[0]][x[1]].setIcon(QIcon('./icons/bombs/mine1.png'))
-            window.items[x[0]][x[1]].setIconSize(QtCore.QSize(20, 20))
+            window.items[x[0]][x[1]].setIconSize(QtCore.QSize(16, 16))
     
     def win(self):
         self.ingame=0

@@ -7,5 +7,3 @@ from PyQt6.QtCore import Qt
 import random
 from random import *
 from math import *
-
-

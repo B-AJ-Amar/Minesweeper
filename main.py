@@ -2,11 +2,17 @@ from header import *
 
 
 # TODO :====================================================
-# flag r_click
-# loose
-# win
+# spacer
+# time 
+# leaderboed
+# options
 
 # Classes :=================================================
+
+class lcd(QLCDNumber):
+    def __init__(self):
+        super().__init__()
+    
 class btn(QPushButton):
     def __init__(self,x,y):
         super().__init__()
@@ -79,11 +85,19 @@ class MainWindow(QMainWindow):
         self.items=[[btn(x,y) for x in range(self.sizeX)] for y in range(self.sizeY)]
         self.__bombs=[]
         
-        
+        # self.setFixedSize(QSize())
         self.setWindowTitle("Minesweeper")
         self.setWindowIcon(QIcon("./icons/bombs/mine1.png"))
         # layouts :================================================================
         # layout 1
+        self.sec = lcd()
+        self.MButton= QPushButton()
+        self.bomb = lcd()
+        layout1 = QGridLayout()
+        layout1.addWidget(self.sec,0,0)
+        layout1.addWidget(self.MButton,0,1)
+        layout1.addWidget(self.bomb,0,2)
+        
         
         # layout 2
         layout2 = QGridLayout()
@@ -95,7 +109,8 @@ class MainWindow(QMainWindow):
                 layout2.addWidget(self.items[y][x], y+1, x+1)
         
         # layout 3
-        MainLayout = QHBoxLayout()
+        MainLayout = QVBoxLayout()
+        MainLayout.addLayout(layout1)
         MainLayout.addLayout(layout2)
         
         widget = QWidget()

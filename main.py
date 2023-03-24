@@ -2,36 +2,63 @@ from header import *
 
 
 # TODO :====================================================
-# bomb empliment
+# flag r_click
+# loose
+# win
 
 # Classes :=================================================
 class btn(QPushButton):
     def __init__(self,x,y):
         super().__init__()
-        self.value=None
+        self.__value=None
+        self.__flag=0
         self.x,self.y=x,y
+        
         self.setText(" ")
         self.setEnabled(True)  # en/desabled
         self.setFixedSize(25,25)
-        self.clicked.connect(lambda : window.rec_reveal(self.x,self.y))
-        
     
-    # def flag:
+    
         
+        
+    def mousePressEvent(self, event):
+            if event.button() == Qt.MouseButton.LeftButton:
+                window.rec_reveal(self.x,self.y)
+
+            elif event.button() == Qt.MouseButton.RightButton:
+                # self.setText("RIGHT")
+                if not self.__flag:
+                    self.__flag=1
+                    icon = QtGui.QIcon()
+                    icon.addPixmap(QtGui.QPixmap("C:\\Users\\Dell\\Desktop\\projects/python/Minesweeper/icons/flags/flag1.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.On)
+                    self.setIcon(icon)
+                    self.setIconSize(QtCore.QSize(20, 20))
+                    self.setIcon(QIcon('./icons/flags/flag1.png'))
+                else:
+                    self.__flag=0
+                    self.setIcon(QIcon(''))
+                    
+                # self.setIconSize(QSize(24,24))
+            # elif event.button() == Qt.MouseButton.MiddleButton:
+            #     # handle the middle-button press in here.
+            #     self.setText("MIDDLE")
+    def GetFlag(self):
+        return self.__flag 
+      
     def SetVal(self,val): 
         print(f"SetVal : ({self.x};{self.y}) = {val}")      
-        self.value=val
+        self.__value=val
         
     def GetVal(self):       
-        return self.value
+        return self.__value
         
     def flag(sef): # *flag icon
         pass
     
     def reveal(self): 
-        self.setText( str(self.value) )
+        self.setText( str(self.__value) )
         self.setEnabled(False)
-        if self.value=="*": # *bombe icon
+        if self.__value=="*": # *bombe icon
             return "lose"
       
    
@@ -43,7 +70,7 @@ class MainWindow(QMainWindow):
         super().__init__()
         # Vars :==================================================================
         self.FirstMove=1
-        self.sizeX,self.sizeY=6,6
+        self.sizeX,self.sizeY=10,10
         self.sizeBomb = 10
         self.items=[[btn(x,y) for x in range(self.sizeX)] for y in range(self.sizeY)]
         # layouts :================================================================
@@ -167,9 +194,9 @@ class MainWindow(QMainWindow):
         while c:     
             tempx,tempy=randint(0,self.sizeX-1),randint(0,self.sizeY-1)
             if(abs(tempy-y)<=1 and abs(tempx-x)<=1): continue
-            if self.items[tempy][tempx].value!="*":
+            if self.items[tempy][tempx].GetVal()!="*":
                 print(f"bomeb[{c}] ({tempy};{tempx})")
-                self.items[tempy][tempx].value = "*"
+                self.items[tempy][tempx].SetVal("*") 
                 c-=1
         
     
@@ -185,7 +212,7 @@ class MainWindow(QMainWindow):
     def revealall(self):
         for y in range(self.sizeY):
             for x in range(self.sizeX):
-                self.items[x][y].text(str(self.items[x][y].value))        
+                self.items[x][y].text(str(self.items[x][y].SetVal()))        
                   
         
     

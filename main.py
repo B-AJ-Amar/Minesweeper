@@ -30,10 +30,12 @@ class btn(QPushButton):
                 # self.setText("RIGHT")
                 if not self.__flag:
                     self.__flag=1
+                    window.FlagRest-=1
                     self.setText("")
                     self.setIcon(QIcon('./icons/flags/flag1.png'))
                     self.setIconSize(QtCore.QSize(20, 20))
                 else:
+                    window.FlagRest+=1
                     self.__flag=0
                     self.setText(" ")
                     self.setIcon(QIcon(''))
@@ -128,13 +130,18 @@ class MainWindow(QMainWindow):
             # self.rec_reveal(self.x,self.y)
             self.items[y][x].setText( str(self.items[y][x].GetVal()) )
             self.items[y][x].setEnabled(False)
+            window.BombRest-=1
+            if not window.BombRest: self.win()
             return 0
             
         elif self.items[y][x].GetVal()==0 :
             print("     rec3")
             # self.rec_reveal(self.x,self.y)
-            self.items[y][x].setText( str(self.items[y][x].GetVal()) )
+            self.items[y][x].setText( "  " )
             self.items[y][x].setEnabled(False)
+            window.BombRest-=1
+            if not window.BombRest: self.win()
+            
             if (x+1<self.sizeX): self.rec_reveal(x+1,y)
             if (x-1>=0): self.rec_reveal(x-1,y)
             if (y+1<self.sizeY): self.rec_reveal(x,y+1)
@@ -229,6 +236,13 @@ class MainWindow(QMainWindow):
         for x in self.__bombs:
             window.items[x[0]][x[1]].setText("")
             window.items[x[0]][x[1]].setIcon(QIcon('./icons/bombs/mine1.png'))
+            window.items[x[0]][x[1]].setIconSize(QtCore.QSize(20, 20))
+    
+    def win(self):
+        self.ingame=0
+        for x in self.__bombs:
+            window.items[x[0]][x[1]].setText("")
+            window.items[x[0]][x[1]].setIcon(QIcon('./icons/flags/flag1.png'))
             window.items[x[0]][x[1]].setIconSize(QtCore.QSize(20, 20))
             
             

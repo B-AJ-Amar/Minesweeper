@@ -6,23 +6,29 @@ from header import *
 # time 
 # leaderboed
 # options
-
+# resetbutton
+# remove debug lines
 # Classes :=================================================
 
 class lcd(QLCDNumber):
     def __init__(self):
         super().__init__()
+        
 class timer(lcd): 
     def __init__(self):
         super().__init__()
-        self.counter=0
-        
-        
+        self.__counter=0
+               
+    def reset(self):
+        self.display(0)
+        self.__counter = 0
+    def GetScore(self):
+        return self.__counter   
     def inc(self):
         while (not window.FirstMove) and window.ingame:
             sleep(1)
-            self.counter+=1
-            self.display(self.counter)
+            self.__counter+=1
+            self.display(self.__counter)
             
     
 class btn(QPushButton):
@@ -37,8 +43,6 @@ class btn(QPushButton):
         self.setFixedSize(25,25)
         
     
-        
-        
     def mousePressEvent(self, event):
         if window.ingame:   
             if event.button() == Qt.MouseButton.LeftButton:
@@ -47,19 +51,25 @@ class btn(QPushButton):
             elif event.button() == Qt.MouseButton.RightButton:
                 # self.setText("RIGHT")
                 if not self.__flag:
-                    self.__flag=1
                     window.FlagRest-=1
                     window.DispBomb.display(window.FlagRest)
-                    self.setText("")
-                    self.setIcon(QIcon('./icons/flags/flag1.png'))
-                    self.setIconSize(QtCore.QSize(20, 20))
+                    self.Flag(1)
                 else:
                     window.FlagRest+=1
                     window.DispBomb.display(window.FlagRest)
-                    self.__flag=0
-                    self.setText(" ")
-                    self.setIcon(QIcon(''))
-              
+                    self.Flag(0)
+    
+    def Flag(self,b):
+        if b:
+            self.__flag=1
+            self.setText("")
+            self.setIcon(QIcon('./icons/flags/flag1.png'))
+            self.setIconSize(QtCore.QSize(20, 20))
+        else:
+            self.__flag=0
+            self.setText(" ")
+            self.setIcon(QIcon(''))
+                              
     def GetFlag(self):
         return self.__flag 
       
@@ -70,26 +80,19 @@ class btn(QPushButton):
     def GetVal(self):       
         return self.__value
         
-    def flag(sef): # *flag icon
-        pass
-    
     def reveal(self): 
         self.setText( str(self.__value) )
         self.setEnabled(False)
         if self.__value=="*": # *bombe icon
             return "lose"
       
-   
 
-        
-        
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         # Vars :==================================================================
         self.FirstMove=1
         self.ingame=1
-        self.time=0
         
         self.sizeX,self.sizeY=10,10
         self.sizeBomb = 10
@@ -99,13 +102,13 @@ class MainWindow(QMainWindow):
         self.items=[[btn(x,y) for x in range(self.sizeX)] for y in range(self.sizeY)]
         self.__bombs=[]
         
-        # self.setFixedSize(QSize())
+        self.setFixedSize(QSize())
         self.setWindowTitle("Minesweeper")
         self.setWindowIcon(QIcon("./icons/bombs/mine1.png"))
         # layouts :================================================================
         # layout 1
         self.DispTime = timer()
-        self.MButton= QPushButton()
+        self.MButton= QPushButton(clicked=self.Reset)
         self.DispBomb = lcd()
         self.DispBomb.display(str(self.FlagRest))
         layout1 = QGridLayout()
@@ -134,44 +137,31 @@ class MainWindow(QMainWindow):
         
     # Functions :==========================================================
     def rec_reveal(self,x=0,y=0,first_call=0):
-        print("in rec_rev")
-        
+  
         if self.FirstMove:
-            print("in rec_rev/firstmove")
             self.FirstMove=0
             self.MakeBombs(x,y)
             self.SetValues()
             ThTime = threading.Thread(target=self.DispTime.inc).start()
-            
-            print("=================================",x,y)
-            # self.revealall()
-        print("in rec_rev/end firstmove")
-        
-        print(x,y)
+      
         if self.items[y][x].GetFlag() :
-            print("     rec_flag")
-            return 0
+            return 
         
         if self.items[y][x].GetVal()=="*":
-            print("     rec2")
             if first_call: self.lose()
-            return 0
+            return 
         
         if self.items[y][x].text()!=" " :
-            print("     rec1")
-            return 0
+            return 
+        
         elif int(self.items[y][x].GetVal())>0:
-            print("     rec3")
-            # self.rec_reveal(self.x,self.y)
             self.items[y][x].setText( str(self.items[y][x].GetVal()) )
             self.items[y][x].setEnabled(False)
             window.BombRest-=1
             if not window.BombRest: self.win()
-            return 0
+            return 
             
         elif self.items[y][x].GetVal()==0 :
-            print("     rec3")
-            # self.rec_reveal(self.x,self.y)
             self.items[y][x].setText( "  " )
             self.items[y][x].setEnabled(False)
             window.BombRest-=1
@@ -192,55 +182,32 @@ class MainWindow(QMainWindow):
         for y in range(self.sizeY):
             for x in range(self.sizeX):
                 
-                print(f"#setting value of ({y};{x})= '{self.items[y][x].GetVal()}'")
                 if( self.items[y][x].GetVal()=="*"):continue
-                print(f"       !!! continue")
                 count=0
-                if( y>=1 and x>=1 and self.items[y-1][x-1].GetVal()=="*"):
-                    count+=1
-                    print(f"     donne {y-1},{x-1}")
                 
-                 
-                if( y>=1 and self.items[y-1][x].GetVal()=="*"):
-                    count+=1
-                    print(f"     donne {y-1},{x}")
+                if( y>=1 and x>=1 and self.items[y-1][x-1].GetVal()=="*"): count+=1
                 
-                 
-                if( y>=1 and (x+1)<self.sizeX and self.items[y-1][x+1].GetVal()=="*"):
-                    count+=1
-                    print(f"     donne {y-1},{x+1}")
+                if( y>=1 and self.items[y-1][x].GetVal()=="*"): count+=1
+                
+                if( y>=1 and (x+1)<self.sizeX and self.items[y-1][x+1].GetVal()=="*"): count+=1
                 
                 # =================================================
                  
-                if( (y+1)<self.sizeY and x>=1 and self.items[y+1][x-1].GetVal()=="*"):
-                    count+=1
-                    print(f"     donne {y+1},{x-1}")
+                if( (y+1)<self.sizeY and x>=1 and self.items[y+1][x-1].GetVal()=="*"): count+=1
                 
-                 
-                if( (y+1)<self.sizeY and self.items[y+1][x].GetVal()=="*"):
-                    count+=1
-                    print(f"     donne {y+1},{x}")
+                if( (y+1)<self.sizeY and self.items[y+1][x].GetVal()=="*"): count+=1
                 
-                 
-                if( (y+1)<self.sizeY and (x+1)<self.sizeX and self.items[y+1][x+1].GetVal()=="*"):
-                    count+=1
-                    print(f"     donne {y+1},{x+1}")
+                if( (y+1)<self.sizeY and (x+1)<self.sizeX and self.items[y+1][x+1].GetVal()=="*"): count+=1
                 
                 # =================================================
                  
-                if( x>=1 and self.items[y][x-1].GetVal()=="*"):
-                    count+=1
-                    print(f"     donne {y},{x-1}")
-                
-                
-                 
-                if( (x+1)<self.sizeX and self.items[y][x+1].GetVal()=="*"):
-                    count+=1
-                    print(f"     donne {y},{x+1}")
+                if( x>=1 and self.items[y][x-1].GetVal()=="*"): count+=1
+                                 
+                if( (x+1)<self.sizeX and self.items[y][x+1].GetVal()=="*"): count+=1
                 
                 self.items[y][x].SetVal(count)
                 
-
+                
     def MakeBombs(self,x,y):
         c = self.sizeBomb
         while c:     
@@ -251,20 +218,24 @@ class MainWindow(QMainWindow):
                 self.items[tempy][tempx].SetVal("*")
                 self.__bombs.append([tempy,tempx])
                 c-=1
-        
-    
+ 
+           
     def Reset(self):
         for y in range(self.sizeY):
             for x in range(self.sizeX):
-                self.items[x][y]=None
+                self.items[x][y].SetVal(None)
                 self.items[x][y].setText(" ")
                 self.items[x][y].setEnabled(True)
+                self.items[x][y].Flag(0)
         
-        self.time=0
         self.FirstMove = 1
+        self.ingame = 1 
         self.BombRest = self.sizeX*self.sizeX-self.sizeBomb
         self.FlagRest = self.sizeBomb
-                # reset time
+        self.DispBomb.display(self.FlagRest)
+        self.__bombs.clear()
+        self.DispTime.reset()
+
     
     def lose(self):
         self.ingame=0
@@ -276,28 +247,13 @@ class MainWindow(QMainWindow):
     def win(self):
         self.ingame=0
         for x in self.__bombs:
+            self.DispBomb.display(0)
             window.items[x[0]][x[1]].setText("")
             window.items[x[0]][x[1]].setIcon(QIcon('./icons/flags/flag1.png'))
             window.items[x[0]][x[1]].setIconSize(QtCore.QSize(20, 20))
-            
-            
-        
-    def revealall(self):
-        for y in range(self.sizeY):
-            for x in range(self.sizeX):
-                self.items[x][y].text(str(self.items[x][y].SetVal()))        
-                  
-        
-    
-
-
-
 # Main :===============================================================
 
 app = QApplication([])
-
 window = MainWindow()
-
 window.show()
-
 app.exec()   

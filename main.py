@@ -12,6 +12,18 @@ from header import *
 class lcd(QLCDNumber):
     def __init__(self):
         super().__init__()
+class timer(lcd): 
+    def __init__(self):
+        super().__init__()
+        self.counter=0
+        
+        
+    def inc(self):
+        while (not window.FirstMove) and window.ingame:
+            sleep(1)
+            self.counter+=1
+            self.display(self.counter)
+            
     
 class btn(QPushButton):
     def __init__(self,x,y):
@@ -23,7 +35,7 @@ class btn(QPushButton):
         self.setText(" ")
         self.setEnabled(True)  # en/desabled
         self.setFixedSize(25,25)
-    
+        
     
         
         
@@ -37,11 +49,13 @@ class btn(QPushButton):
                 if not self.__flag:
                     self.__flag=1
                     window.FlagRest-=1
+                    window.DispBomb.display(window.FlagRest)
                     self.setText("")
                     self.setIcon(QIcon('./icons/flags/flag1.png'))
                     self.setIconSize(QtCore.QSize(20, 20))
                 else:
                     window.FlagRest+=1
+                    window.DispBomb.display(window.FlagRest)
                     self.__flag=0
                     self.setText(" ")
                     self.setIcon(QIcon(''))
@@ -90,13 +104,14 @@ class MainWindow(QMainWindow):
         self.setWindowIcon(QIcon("./icons/bombs/mine1.png"))
         # layouts :================================================================
         # layout 1
-        self.sec = lcd()
+        self.DispTime = timer()
         self.MButton= QPushButton()
-        self.bomb = lcd()
+        self.DispBomb = lcd()
+        self.DispBomb.display(str(self.FlagRest))
         layout1 = QGridLayout()
-        layout1.addWidget(self.sec,0,0)
+        layout1.addWidget(self.DispTime,0,0)
         layout1.addWidget(self.MButton,0,1)
-        layout1.addWidget(self.bomb,0,2)
+        layout1.addWidget(self.DispBomb,0,2)
         
         
         # layout 2
@@ -126,6 +141,8 @@ class MainWindow(QMainWindow):
             self.FirstMove=0
             self.MakeBombs(x,y)
             self.SetValues()
+            ThTime = threading.Thread(target=self.DispTime.inc).start()
+            
             print("=================================",x,y)
             # self.revealall()
         print("in rec_rev/end firstmove")

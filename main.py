@@ -1,15 +1,51 @@
 from header import *
-
+from test2 import *
 
 # TODO :====================================================
-# spacer
 # time 
 # leaderboed
 # options
 # resetbutton
 # remove debug lines
-# Classes :=================================================
+# css
 
+# Classes :=================================================
+class ResetButton(QPushButton):
+    def __init__(self):
+        super().__init__()
+    
+        self.setIcon(QIcon('./icons/characters/TechGeeks.png'))
+        
+        self.setIconSize(QtCore.QSize(60, 26.2))
+        self.clicked.connect( self.Reset)
+    
+    def Reset(self):
+        for y in range(window.sizeY):
+            for x in range(window.sizeX):
+                window.items[x][y].SetVal(None)
+                window.items[x][y].setText(" ")
+                window.items[x][y].setEnabled(True)
+                window.items[x][y].Flag(0)
+        
+        window.FirstMove = 1
+        window.ingame = 1 
+        window.BombRest = window.sizeX*window.sizeX-window.sizeBomb
+        window.FlagRest = window.sizeBomb
+        window.DispBomb.display(window.FlagRest)
+        window.ClearBombs()
+        window.DispTime.reset()
+        self.setIcon(QIcon('./icons/characters/TechGeeks.png'))
+        
+    def win(self):
+        self.setIcon(QIcon('./icons/win/win5.png'))
+        # self.setIconSize(QtCore.QSize(51.2, 45.8))
+    def lose(self):
+        self.setIcon(QIcon('./icons/characters/TechGeeks_Lose.png'))
+        
+        
+        
+        
+    
 class lcd(QLCDNumber):
     def __init__(self):
         super().__init__()
@@ -80,12 +116,7 @@ class btn(QPushButton):
     def GetVal(self):       
         return self.__value
         
-    def reveal(self): 
-        self.setText( str(self.__value) )
-        self.setEnabled(False)
-        if self.__value=="*": # *bombe icon
-            return "lose"
-      
+
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -99,23 +130,36 @@ class MainWindow(QMainWindow):
         self.BombRest = self.sizeX*self.sizeX-self.sizeBomb
         self.FlagRest = self.sizeBomb
         
+        
         self.items=[[btn(x,y) for x in range(self.sizeX)] for y in range(self.sizeY)]
         self.__bombs=[]
+        
         
         self.setFixedSize(QSize())
         self.setWindowTitle("Minesweeper")
         self.setWindowIcon(QIcon("./icons/bombs/mine1.png"))
+        self.setObjectName("Main")
+        with open("./style.css","r") as fh:
+            self.setStyleSheet(fh.read())
         # layouts :================================================================
         # layout 1
         self.DispTime = timer()
-        self.MButton= QPushButton(clicked=self.Reset)
+        self.MButton= ResetButton()
+        
+        
         self.DispBomb = lcd()
         self.DispBomb.display(str(self.FlagRest))
+        
+        self.spacer1 = QSpacerItem(20, 0, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+        self.spacer2 = QSpacerItem(20, 0, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+        
         layout1 = QGridLayout()
         layout1.addWidget(self.DispTime,0,0)
-        layout1.addWidget(self.MButton,0,1)
-        layout1.addWidget(self.DispBomb,0,2)
+        layout1.addWidget(self.MButton,0,2)
+        layout1.addWidget(self.DispBomb,0,4)
         
+        layout1.addItem(self.spacer1,0,1)
+        layout1.addItem(self.spacer2,0,3)
         
         # layout 2
         layout2 = QGridLayout()
@@ -214,27 +258,14 @@ class MainWindow(QMainWindow):
             tempx,tempy=randint(0,self.sizeX-1),randint(0,self.sizeY-1)
             if(abs(tempy-y)<=1 and abs(tempx-x)<=1): continue
             if self.items[tempy][tempx].GetVal()!="*":
-                print(f"bomeb[{c}] ({tempy};{tempx})")
+                # print(f"bomeb[{c}] ({tempy};{tempx})")
                 self.items[tempy][tempx].SetVal("*")
                 self.__bombs.append([tempy,tempx])
                 c-=1
- 
+    def ClearBombs(self):
+        window.__bombs.clear()
            
-    def Reset(self):
-        for y in range(self.sizeY):
-            for x in range(self.sizeX):
-                self.items[x][y].SetVal(None)
-                self.items[x][y].setText(" ")
-                self.items[x][y].setEnabled(True)
-                self.items[x][y].Flag(0)
-        
-        self.FirstMove = 1
-        self.ingame = 1 
-        self.BombRest = self.sizeX*self.sizeX-self.sizeBomb
-        self.FlagRest = self.sizeBomb
-        self.DispBomb.display(self.FlagRest)
-        self.__bombs.clear()
-        self.DispTime.reset()
+    
 
     
     def lose(self):
@@ -243,6 +274,7 @@ class MainWindow(QMainWindow):
             window.items[x[0]][x[1]].setText("")
             window.items[x[0]][x[1]].setIcon(QIcon('./icons/bombs/mine1.png'))
             window.items[x[0]][x[1]].setIconSize(QtCore.QSize(16, 16))
+        self.MButton.lose()
     
     def win(self):
         self.ingame=0
@@ -251,6 +283,7 @@ class MainWindow(QMainWindow):
             window.items[x[0]][x[1]].setText("")
             window.items[x[0]][x[1]].setIcon(QIcon('./icons/flags/flag1.png'))
             window.items[x[0]][x[1]].setIconSize(QtCore.QSize(20, 20))
+            self.MButton.win()
 # Main :===============================================================
 
 app = QApplication([])

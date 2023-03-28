@@ -1,5 +1,5 @@
 from header import *
-from test2 import *
+from NumClr import *
 
 # TODO :====================================================
 # time 
@@ -78,6 +78,7 @@ class btn(QPushButton):
         self.setEnabled(True)  # en/desabled
         self.setFixedSize(25,25)
         
+        
     
     def mousePressEvent(self, event):
         if window.ingame:   
@@ -110,8 +111,9 @@ class btn(QPushButton):
         return self.__flag 
       
     def SetVal(self,val): 
-        print(f"SetVal : ({self.x};{self.y}) = {val}")      
+        # print(f"SetVal : ({self.x};{self.y}) = {val}")      
         self.__value=val
+        self.setStyleSheet(numss(val))
         
     def GetVal(self):       
         return self.__value
@@ -133,12 +135,11 @@ class MainWindow(QMainWindow):
         
         self.items=[[btn(x,y) for x in range(self.sizeX)] for y in range(self.sizeY)]
         self.__bombs=[]
-        
-        
+        # self.setWindowFlags(QtCore.Qt.WindowType.FramelessWindowHint)
         self.setFixedSize(QSize())
         self.setWindowTitle("Minesweeper")
         self.setWindowIcon(QIcon("./icons/bombs/mine1.png"))
-        self.setObjectName("Main")
+        # self.setObjectName("win")
         with open("./style.css","r") as fh:
             self.setStyleSheet(fh.read())
         # layouts :================================================================
@@ -157,6 +158,7 @@ class MainWindow(QMainWindow):
         layout1.addWidget(self.DispTime,0,0)
         layout1.addWidget(self.MButton,0,2)
         layout1.addWidget(self.DispBomb,0,4)
+        layout1.setObjectName("l1")
         
         layout1.addItem(self.spacer1,0,1)
         layout1.addItem(self.spacer2,0,3)
@@ -165,6 +167,7 @@ class MainWindow(QMainWindow):
         layout2 = QGridLayout()
         layout2.setSpacing(0)
         layout2.setContentsMargins(0,0,0,0)
+        layout2.setObjectName("l2")
         
         for x in range(self.sizeX):
             for y in range(self.sizeY):
@@ -174,6 +177,7 @@ class MainWindow(QMainWindow):
         MainLayout = QVBoxLayout()
         MainLayout.addLayout(layout1)
         MainLayout.addLayout(layout2)
+        MainLayout.setObjectName("l3")
         
         widget = QWidget()
         widget.setLayout(MainLayout)

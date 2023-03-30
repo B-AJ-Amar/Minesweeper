@@ -1,5 +1,6 @@
 from header import *
 from NumClr import *
+from options_win import *
 
 # TODO :====================================================
 # time 
@@ -22,10 +23,10 @@ class ResetButton(QPushButton):
     def Reset(self):
         for y in range(window.sizeY):
             for x in range(window.sizeX):
-                window.items[x][y].SetVal(None)
-                window.items[x][y].setText(" ")
-                window.items[x][y].setEnabled(True)
-                window.items[x][y].Flag(0)
+                window.items[y][x].SetVal(None)
+                window.items[y][x].setText(" ")
+                window.items[y][x].setEnabled(True)
+                window.items[y][x].Flag(0)
         
         window.FirstMove = 1
         window.ingame = 1 
@@ -126,8 +127,9 @@ class MainWindow(QMainWindow):
         # Vars :==================================================================
         self.FirstMove=1
         self.ingame=1
+        self.option_window=0
         
-        self.sizeX,self.sizeY=10,10
+        self.sizeX,self.sizeY=9,9
         self.sizeBomb = 10
         self.BombRest = self.sizeX*self.sizeX-self.sizeBomb
         self.FlagRest = self.sizeBomb
@@ -184,6 +186,15 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(widget)
         
     # Functions :==========================================================
+    def keyPressEvent(self, e):
+            if e.key() == Qt.Key.Key_F7 and not self.option_window: #16777220 seems to be enter
+                print("donne")
+                self.option_window=1
+                self.OptWin = opt()
+                # self.OptWin.cancel.clicked.connect( self.OptWin.close(0))
+                self.OptWin.apply.clicked.connect(lambda : print("apply"))
+                self.OptWin.show()
+                
     def rec_reveal(self,x=0,y=0,first_call=0):
   
         if self.FirstMove:

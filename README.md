@@ -1,2 +1,3 @@
 # Minesweeper
-Minesweeper game using PyQt6
+Minesweeper game using PyQt6 (incomplete yet)
+

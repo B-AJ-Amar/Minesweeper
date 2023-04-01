@@ -12,7 +12,10 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_OptionWindow(object):
     def setupUi(self, OptionWindow):
         OptionWindow.setObjectName("OptionWindow")
-        OptionWindow.resize(366, 197)
+        OptionWindow.resize(366, 207)
+        OptionWindow.setStyleSheet("QWidget {\n"
+"  background-color: #fff;\n"
+"}")
         self.verticalLayout_11 = QtWidgets.QVBoxLayout(OptionWindow)
         self.verticalLayout_11.setObjectName("verticalLayout_11")
         self.groupBox_2 = QtWidgets.QGroupBox(OptionWindow)
@@ -41,6 +44,7 @@ class Ui_OptionWindow(object):
         self.verticalLayout_10 = QtWidgets.QVBoxLayout()
         self.verticalLayout_10.setObjectName("verticalLayout_10")
         self.rb5 = QtWidgets.QRadioButton(self.groupBox_2)
+        self.rb5.setStyleSheet("")
         self.rb5.setObjectName("rb5")
         self.verticalLayout_10.addWidget(self.rb5)
         self.costum_3 = QtWidgets.QGridLayout()
@@ -67,6 +71,62 @@ class Ui_OptionWindow(object):
         self.costum_3.addWidget(self.l1, 0, 1, 1, 1)
         self.s3 = QtWidgets.QSlider(self.groupBox_2)
         self.s3.setEnabled(False)
+        self.s3.setStyleSheet("QSlider::groove:horizontal {\n"
+"border: 1px solid #bbb;\n"
+"background: white;\n"
+"height: 10px;\n"
+"border-radius: 4px;\n"
+"}\n"
+"\n"
+"QSlider::sub-page:horizontal {\n"
+"background: qlineargradient(x1: 0, y1: 0,    x2: 0, y2: 1,\n"
+"    stop: 0 #66e, stop: 1 #bbf);\n"
+"background: qlineargradient(x1: 0, y1: 0.2, x2: 1, y2: 1,\n"
+"    stop: 0 #bbf, stop: 1 #55f);\n"
+"border: 1px solid #777;\n"
+"height: 10px;\n"
+"border-radius: 4px;\n"
+"}\n"
+"\n"
+"QSlider::add-page:horizontal {\n"
+"background: #fff;\n"
+"border: 1px solid #777;\n"
+"height: 10px;\n"
+"border-radius: 4px;\n"
+"}\n"
+"\n"
+"QSlider::handle:horizontal {\n"
+"background: qlineargradient(x1:0, y1:0, x2:1, y2:1,\n"
+"    stop:0 #eee, stop:1 #ccc);\n"
+"border: 1px solid #777;\n"
+"width: 13px;\n"
+"margin-top: -2px;\n"
+"margin-bottom: -2px;\n"
+"border-radius: 4px;\n"
+"}\n"
+"\n"
+"QSlider::handle:horizontal:hover {\n"
+"background: qlineargradient(x1:0, y1:0, x2:1, y2:1,\n"
+"    stop:0 #fff, stop:1 #ddd);\n"
+"border: 1px solid #444;\n"
+"border-radius: 4px;\n"
+"}\n"
+"\n"
+"QSlider::sub-page:horizontal:disabled {\n"
+"background: #bbb;\n"
+"border-color: #999;\n"
+"}\n"
+"\n"
+"QSlider::add-page:horizontal:disabled {\n"
+"background: #eee;\n"
+"border-color: #999;\n"
+"}\n"
+"\n"
+"QSlider::handle:horizontal:disabled {\n"
+"background: #eee;\n"
+"border: 1px solid #aaa;\n"
+"border-radius: 4px;\n"
+"}")
         self.s3.setOrientation(QtCore.Qt.Orientation.Horizontal)
         self.s3.setObjectName("s3")
         self.costum_3.addWidget(self.s3, 2, 2, 1, 1)
@@ -76,13 +136,123 @@ class Ui_OptionWindow(object):
         self.costum_3.addWidget(self.l3, 2, 1, 1, 1)
         self.s2 = QtWidgets.QSlider(self.groupBox_2)
         self.s2.setEnabled(False)
-        self.s2.setStyleSheet("")
+        self.s2.setStyleSheet("QSlider::groove:horizontal {\n"
+"border: 1px solid #bbb;\n"
+"background: white;\n"
+"height: 10px;\n"
+"border-radius: 4px;\n"
+"}\n"
+"\n"
+"QSlider::sub-page:horizontal {\n"
+"background: qlineargradient(x1: 0, y1: 0,    x2: 0, y2: 1,\n"
+"    stop: 0 #66e, stop: 1 #bbf);\n"
+"background: qlineargradient(x1: 0, y1: 0.2, x2: 1, y2: 1,\n"
+"    stop: 0 #bbf, stop: 1 #55f);\n"
+"border: 1px solid #777;\n"
+"height: 10px;\n"
+"border-radius: 4px;\n"
+"}\n"
+"\n"
+"QSlider::add-page:horizontal {\n"
+"background: #fff;\n"
+"border: 1px solid #777;\n"
+"height: 10px;\n"
+"border-radius: 4px;\n"
+"}\n"
+"\n"
+"QSlider::handle:horizontal {\n"
+"background: qlineargradient(x1:0, y1:0, x2:1, y2:1,\n"
+"    stop:0 #eee, stop:1 #ccc);\n"
+"border: 1px solid #777;\n"
+"width: 13px;\n"
+"margin-top: -2px;\n"
+"margin-bottom: -2px;\n"
+"border-radius: 4px;\n"
+"}\n"
+"\n"
+"QSlider::handle:horizontal:hover {\n"
+"background: qlineargradient(x1:0, y1:0, x2:1, y2:1,\n"
+"    stop:0 #fff, stop:1 #ddd);\n"
+"border: 1px solid #444;\n"
+"border-radius: 4px;\n"
+"}\n"
+"\n"
+"QSlider::sub-page:horizontal:disabled {\n"
+"background: #bbb;\n"
+"border-color: #999;\n"
+"}\n"
+"\n"
+"QSlider::add-page:horizontal:disabled {\n"
+"background: #eee;\n"
+"border-color: #999;\n"
+"}\n"
+"\n"
+"QSlider::handle:horizontal:disabled {\n"
+"background: #eee;\n"
+"border: 1px solid #aaa;\n"
+"border-radius: 4px;\n"
+"}")
         self.s2.setOrientation(QtCore.Qt.Orientation.Horizontal)
         self.s2.setObjectName("s2")
         self.costum_3.addWidget(self.s2, 1, 2, 1, 1)
         self.s1 = QtWidgets.QSlider(self.groupBox_2)
         self.s1.setEnabled(False)
-        self.s1.setStyleSheet("")
+        self.s1.setStyleSheet("QSlider::groove:horizontal {\n"
+"border: 1px solid #bbb;\n"
+"background: white;\n"
+"height: 10px;\n"
+"border-radius: 4px;\n"
+"}\n"
+"\n"
+"QSlider::sub-page:horizontal {\n"
+"background: qlineargradient(x1: 0, y1: 0,    x2: 0, y2: 1,\n"
+"    stop: 0 #66e, stop: 1 #bbf);\n"
+"background: qlineargradient(x1: 0, y1: 0.2, x2: 1, y2: 1,\n"
+"    stop: 0 #bbf, stop: 1 #55f);\n"
+"border: 1px solid #777;\n"
+"height: 10px;\n"
+"border-radius: 4px;\n"
+"}\n"
+"\n"
+"QSlider::add-page:horizontal {\n"
+"background: #fff;\n"
+"border: 1px solid #777;\n"
+"height: 10px;\n"
+"border-radius: 4px;\n"
+"}\n"
+"\n"
+"QSlider::handle:horizontal {\n"
+"background: qlineargradient(x1:0, y1:0, x2:1, y2:1,\n"
+"    stop:0 #eee, stop:1 #ccc);\n"
+"border: 1px solid #777;\n"
+"width: 13px;\n"
+"margin-top: -2px;\n"
+"margin-bottom: -2px;\n"
+"border-radius: 4px;\n"
+"}\n"
+"\n"
+"QSlider::handle:horizontal:hover {\n"
+"background: qlineargradient(x1:0, y1:0, x2:1, y2:1,\n"
+"    stop:0 #fff, stop:1 #ddd);\n"
+"border: 1px solid #444;\n"
+"border-radius: 4px;\n"
+"}\n"
+"\n"
+"QSlider::sub-page:horizontal:disabled {\n"
+"background: #bbb;\n"
+"border-color: #999;\n"
+"}\n"
+"\n"
+"QSlider::add-page:horizontal:disabled {\n"
+"background: #eee;\n"
+"border-color: #999;\n"
+"}\n"
+"\n"
+"QSlider::handle:horizontal:disabled {\n"
+"background: #eee;\n"
+"border: 1px solid #aaa;\n"
+"border-radius: 4px;\n"
+"}")
         self.s1.setOrientation(QtCore.Qt.Orientation.Horizontal)
         self.s1.setObjectName("s1")
         self.costum_3.addWidget(self.s1, 0, 2, 1, 1)
@@ -92,11 +262,41 @@ class Ui_OptionWindow(object):
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         self.apply = QtWidgets.QPushButton(OptionWindow)
+        self.apply.setStyleSheet("QPushButton {\n"
+"  background-color: #0d6efd;\n"
+"  color: #fff;\n"
+"  font-weight: 600;\n"
+"  border-radius: 8px;\n"
+"  border: 1px solid #0d6efd;\n"
+"  padding: 5px 15px;\n"
+"  margin-top: 10px;\n"
+"  outline: 0px;\n"
+"}\n"
+"QPushButton:hover,\n"
+"QPushButton:focus {\n"
+"  background-color: #0b5ed7;\n"
+"  border: 3px solid #9ac3fe;\n"
+"}")
         self.apply.setObjectName("apply")
         self.horizontalLayout_3.addWidget(self.apply)
-        self.cancel = QtWidgets.QPushButton(OptionWindow)
-        self.cancel.setObjectName("cancel")
-        self.horizontalLayout_3.addWidget(self.cancel)
+        self.GoBack = QtWidgets.QPushButton(OptionWindow)
+        self.GoBack.setStyleSheet("QPushButton {\n"
+"  background-color: #0d6efd;\n"
+"  color: #fff;\n"
+"  font-weight: 600;\n"
+"  border-radius: 8px;\n"
+"  border: 1px solid #0d6efd;\n"
+"  padding: 5px 15px;\n"
+"  margin-top: 10px;\n"
+"  outline: 0px;\n"
+"}\n"
+"QPushButton:hover,\n"
+"QPushButton:focus {\n"
+"  background-color: #0b5ed7;\n"
+"  border: 3px solid #9ac3fe;\n"
+"}")
+        self.GoBack.setObjectName("GoBack")
+        self.horizontalLayout_3.addWidget(self.GoBack)
         self.verticalLayout_11.addLayout(self.horizontalLayout_3)
 
         self.retranslateUi(OptionWindow)
@@ -104,7 +304,7 @@ class Ui_OptionWindow(object):
 
     def retranslateUi(self, OptionWindow):
         _translate = QtCore.QCoreApplication.translate
-        OptionWindow.setWindowTitle(_translate("OptionWindow", "Settings(CommingSoon)"))
+        OptionWindow.setWindowTitle(_translate("OptionWindow", "Settings"))
         self.groupBox_2.setTitle(_translate("OptionWindow", "Difficulty"))
         self.rb1.setText(_translate("OptionWindow", "Easy"))
         self.rb2.setText(_translate("OptionWindow", "Medium"))
@@ -115,4 +315,4 @@ class Ui_OptionWindow(object):
         self.l1.setText(_translate("OptionWindow", "Bombe"))
         self.l3.setText(_translate("OptionWindow", "Columns"))
         self.apply.setText(_translate("OptionWindow", "Apply"))
-        self.cancel.setText(_translate("OptionWindow", "cancel"))
+        self.GoBack.setText(_translate("OptionWindow", "GoBack"))

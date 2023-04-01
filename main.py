@@ -20,7 +20,8 @@ class ResetButton(QPushButton):
         self.setIconSize(QtCore.QSize(60, 26.2))
         self.clicked.connect( self.Reset)
     
-    def Reset(self):
+    def Reset(self,btns=1):
+        if btns: pass
         for y in range(window.sizeY):
             for x in range(window.sizeX):
                 window.items[y][x].SetVal(None)
@@ -166,34 +167,57 @@ class MainWindow(QMainWindow):
         layout1.addItem(self.spacer2,0,3)
         
         # layout 2
-        layout2 = QGridLayout()
-        layout2.setSpacing(0)
-        layout2.setContentsMargins(0,0,0,0)
-        layout2.setObjectName("l2")
+        self.layout2 = QGridLayout()
+        self.layout2.setSpacing(0)
+        self.layout2.setContentsMargins(0,0,0,0)
+        self.layout2.setObjectName("l2")
         
         for x in range(self.sizeX):
             for y in range(self.sizeY):
-                layout2.addWidget(self.items[y][x], y+1, x+1)
+                self.layout2.addWidget(self.items[y][x], y+1, x+1)
         
         # layout 3
-        MainLayout = QVBoxLayout()
-        MainLayout.addLayout(layout1)
-        MainLayout.addLayout(layout2)
-        MainLayout.setObjectName("l3")
+        self.MainLayout = QVBoxLayout()
+        self.MainLayout.addLayout(layout1)
+        self.MainLayout.addLayout(self.layout2)
+        self.MainLayout.setObjectName("l3")
         
         widget = QWidget()
-        widget.setLayout(MainLayout)
+        widget.setLayout(self.MainLayout)
         self.setCentralWidget(widget)
         
     # Functions :==========================================================
+    
+        
+    def NewSettings(self,NewX,NewY,NewB) :
+        if (NewB==self.sizeBomb and NewX==self.sizeX and NewY==self.sizeY ):
+            self.MButton.Reset()
+            return 
+            
+        for x in range(self.sizeX):
+            for y in range(self.sizeY):
+                self.layout2.removeWidget(self.items[y][x])
+                self.items[y][x].deleteLater()
+        self.items.clear()
+        self.sizeX,self.sizeY,self.sizeBomb=NewX,NewY,NewB
+        self.items=[[btn(x,y) for x in range(self.sizeX)] for y in range(self.sizeY)]
+        for x in range(self.sizeX):
+            for y in range(self.sizeY):
+                self.layout2.addWidget(self.items[y][x], y+1, x+1)
+        self.MButton.Reset()
+        self.setFixedSize(QSize())
+        self.move(QPoint())
+
     def keyPressEvent(self, e):
             if e.key() == Qt.Key.Key_F7 and not self.option_window: #16777220 seems to be enter
                 print("donne")
                 self.option_window=1
                 self.OptWin = opt()
                 # self.OptWin.cancel.clicked.connect( self.OptWin.close(0))
-                self.OptWin.apply.clicked.connect(lambda : print("apply"))
-                self.OptWin.show()
+                self.OptWin.apply.clicked.connect(lambda : self.NewSettings(self.OptWin.pos_x,self.OptWin.pos_y, self.OptWin.bombs))
+                self.OptWin.exec()
+                self.option_window = 0
+                
                 
     def rec_reveal(self,x=0,y=0,first_call=0):
   
@@ -271,6 +295,7 @@ class MainWindow(QMainWindow):
         c = self.sizeBomb
         while c:     
             tempx,tempy=randint(0,self.sizeX-1),randint(0,self.sizeY-1)
+            
             if(abs(tempy-y)<=1 and abs(tempx-x)<=1): continue
             if self.items[tempy][tempx].GetVal()!="*":
                 # print(f"bomeb[{c}] ({tempy};{tempx})")

@@ -1,0 +1,57 @@
+MainWindow {
+    background-color: #fff;
+
+}
+
+ResetButton {  
+    background-color: #FAFBFC;  
+    color: #000;  font-weight: 600;  
+    border-radius: 8px;  
+    border: 1px solid #DADEE2;  
+    padding: 5px 10px;  
+    /* margin-top: 10px;   */
+    outline: 0px;
+}
+ResetButton:hover {  
+    background-color: #fff;  
+    border: 3px solid #D4D8DC;
+}
+
+
+btn { 
+    padding: 1px 1px; 
+    background-color: #FAFBFC;  
+    border-radius: 8px;  
+    border: 1px solid #DADEE2;  
+    outline: 0px;
+}
+btn:hover {  
+    background-color: #fff;  
+    border: 3px solid #D4D8DC;
+}
+btn:disabled {  
+    background-color: #E2E5E9;  
+    border: 3px solid #E2E5E9;
+}
+
+
+
+QLCDNumber {
+    background-color: #fff;
+    color: #000;
+    border: 2px solid #DADEE2;
+    border-radius: 8px;
+    padding: 0px;
+    
+}
+
+
+
+QLCDNumber::indicator {
+    background-color: #000000;
+    color: #E2E5E9;
+    border-radius: 5px;
+    
+    
+}
+

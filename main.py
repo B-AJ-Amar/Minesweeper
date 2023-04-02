@@ -67,7 +67,6 @@ class timer(lcd):
             sleep(1)
             self.__counter+=1
             self.display(self.__counter)
-            print("Bombs rest:  ",window.BombRest)
             
     
 class btn(QPushButton):

@@ -28,7 +28,7 @@ class opt(QDialog):
         
         self.s1.setMinimum(5)
         self.s2.setMinimum(5)
-        self.s3.setMinimum(8)
+        self.s3.setMinimum(9)
         
         self.s2.setMaximum(27)
         self.s3.setMaximum(50)

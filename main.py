@@ -31,7 +31,7 @@ class ResetButton(QPushButton):
         
         window.FirstMove = 1
         window.ingame = 1 
-        window.BombRest = window.sizeX*window.sizeX-window.sizeBomb
+        window.BombRest = window.sizeY*window.sizeX-window.sizeBomb
         window.FlagRest = window.sizeBomb
         window.DispBomb.display(window.FlagRest)
         window.ClearBombs()
@@ -67,6 +67,7 @@ class timer(lcd):
             sleep(1)
             self.__counter+=1
             self.display(self.__counter)
+            print("Bombs rest:  ",window.BombRest)
             
     
 class btn(QPushButton):

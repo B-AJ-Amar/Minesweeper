@@ -3,9 +3,10 @@ MainWindow {
 
 }
 
-ResetButton {  
+ResetButton { 
     background-color: #FAFBFC;  
-    color: #000;  font-weight: 600;  
+    /* color: #000;   */
+    /* font-weight: 600;   */
     border-radius: 8px;  
     border: 1px solid #DADEE2;  
     padding: 5px 10px;  
@@ -14,7 +15,7 @@ ResetButton {
 }
 ResetButton:hover {  
     background-color: #fff;  
-    border: 3px solid #D4D8DC;
+    border: 1px solid #D4D8DC;
 }
 
 
@@ -27,11 +28,11 @@ btn {
 }
 btn:hover {  
     background-color: #fff;  
-    border: 3px solid #D4D8DC;
+    border: 1px solid #D4D8DC;
 }
 btn:disabled {  
     background-color: #E2E5E9;  
-    border: 3px solid #E2E5E9;
+    /* border: 1px solid #E2E5E9; */
 }
 
 
@@ -39,9 +40,9 @@ btn:disabled {
 QLCDNumber {
     background-color: #fff;
     color: #000;
-    border: 2px solid #DADEE2;
-    border-radius: 8px;
-    padding: 0px;
+    border: 1px solid #DADEE2;
+    border-radius: 5px;
+    /* padding: 0px; */
     
 }
 

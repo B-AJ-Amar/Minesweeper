@@ -1,7 +1,12 @@
 from header import *
 
 # !message box
-
+class about(QDialog):
+    def __init__(self):
+        super().__init__()
+        loadUi("about.ui",self)
+        self.ok.clicked.connect(lambda : self.close())
+        
 class opt(QDialog):
     def __init__(self):
         super().__init__()
@@ -12,6 +17,7 @@ class opt(QDialog):
          
         loadUi("option.ui",self)
         self.setFixedSize(QSize(365,197))
+        self.setWindowIcon(QIcon("./icons/settings.png"))
         
         self.GoBack.clicked.connect(lambda : self.close())
         

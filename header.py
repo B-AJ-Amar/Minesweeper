@@ -8,11 +8,9 @@ from PyQt6.QtCore import Qt
 
 from PyQt6.uic import *
 
-
-import pyautogui
 from random import *
 from math import *
 from time import *
 import threading
-import sys
+import os
 

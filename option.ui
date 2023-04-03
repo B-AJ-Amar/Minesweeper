@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>366</width>
-    <height>207</height>
+    <height>211</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -353,8 +353,9 @@ border-radius: 4px;
      <item>
       <widget class="QPushButton" name="apply">
        <property name="styleSheet">
-        <string notr="true">QPushButton {
-  background-color: #0d6efd;
+        <string notr="true">
+QPushButton {
+  background-color: #2196F3;
   color: #fff;
   font-weight: 600;
   border-radius: 8px;
@@ -363,9 +364,8 @@ border-radius: 4px;
   margin-top: 10px;
   outline: 0px;
 }
-QPushButton:hover,
-QPushButton:focus {
-  background-color: #0b5ed7;
+QPushButton:hover {
+  background-color: #0d6efd;
   border: 3px solid #9ac3fe;
 }</string>
        </property>
@@ -377,19 +377,20 @@ QPushButton:focus {
      <item>
       <widget class="QPushButton" name="GoBack">
        <property name="styleSheet">
-        <string notr="true">QPushButton {
-  background-color: #0d6efd;
+        <string notr="true">
+
+QPushButton {
+  background-color: #2196F3;
   color: #fff;
   font-weight: 600;
   border-radius: 8px;
-  border: 1px solid #0d6efd;
+  border: 1px solid #2196F3;
   padding: 5px 15px;
   margin-top: 10px;
   outline: 0px;
 }
-QPushButton:hover,
-QPushButton:focus {
-  background-color: #0b5ed7;
+QPushButton:hover {
+  background-color: #0d6efd;
   border: 3px solid #9ac3fe;
 }</string>
        </property>

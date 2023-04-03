@@ -145,6 +145,19 @@ class MainWindow(QMainWindow):
         # self.setObjectName("win")
         with open("./style.css","r") as fh:
             self.setStyleSheet(fh.read())
+          
+        # toolbar=======================================================================  
+        toolbar = QToolBar("My main toolbar")
+        self.addToolBar(toolbar)
+        self.settings = QAction("Settings",self)
+        self.settings.triggered.connect(self.optins_win)
+        toolbar.addAction(self.settings)
+        self.about = QAction("Help",self)
+        self.about.triggered.connect(lambda : os.system(".\\HowToPlayMinesweeper.html"))
+        toolbar.addAction(self.about)
+        self.about = QAction("About",self)
+        self.about.triggered.connect(self.about_win)
+        toolbar.addAction(self.about)
         # layouts :================================================================
         # layout 1
         self.DispTime = timer()
@@ -188,6 +201,9 @@ class MainWindow(QMainWindow):
         
     # Functions :==========================================================
     
+    def keyPressEvent(self, e):
+            if e.key() == Qt.Key.Key_F7 and not self.option_window: #16777220 seems to be enter
+                self.optins_win()
         
     def NewSettings(self,NewX,NewY,NewB) :
         if (NewB==self.sizeBomb and NewX==self.sizeX and NewY==self.sizeY ):
@@ -207,18 +223,23 @@ class MainWindow(QMainWindow):
         self.MButton.Reset()
         self.setFixedSize(QSize())
         self.move(QPoint())
-
-    def keyPressEvent(self, e):
-            if e.key() == Qt.Key.Key_F7 and not self.option_window: #16777220 seems to be enter
-                print("donne")
-                self.option_window=1
-                self.OptWin = opt()
-                # self.OptWin.cancel.clicked.connect( self.OptWin.close(0))
-                self.OptWin.apply.clicked.connect(lambda : self.NewSettings(self.OptWin.pos_x,self.OptWin.pos_y, self.OptWin.bombs))
-                self.OptWin.exec()
-                self.option_window = 0
+    
+    # ==================================================
+    def optins_win(self):
+        self.option_window=1
+        self.OptWin = opt()
+        self.OptWin.apply.clicked.connect(lambda : self.NewSettings(self.OptWin.pos_x,self.OptWin.pos_y, self.OptWin.bombs))
+        self.OptWin.exec()
+        self.option_window = 0
                 
-                
+    def about_win(self):
+        self.option_window=1
+        self.AboutWin = about()
+        self.AboutWin.exec()
+        self.option_window = 0  
+    
+    # ======================================================================
+                 
     def rec_reveal(self,x=0,y=0,first_call=0):
   
         if self.FirstMove:

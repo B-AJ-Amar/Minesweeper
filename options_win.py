@@ -5,6 +5,8 @@ class about(QDialog):
     def __init__(self):
         super().__init__()
         loadUi("about.ui",self)
+        self.setWindowIcon(QIcon("./icons/info/information.png"))
+        self.setWindowTitle("About")
         self.ok.clicked.connect(lambda : self.close())
         
 class opt(QDialog):

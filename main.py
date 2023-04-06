@@ -147,17 +147,18 @@ class MainWindow(QMainWindow):
             self.setStyleSheet(fh.read())
           
         # toolbar=======================================================================  
-        toolbar = QToolBar("My main toolbar")
-        self.addToolBar(toolbar)
+        self.toolbar = QToolBar("My main toolbar")
+        self.toolbar.setMovable(False)
+        self.addToolBar(self.toolbar)
         self.settings = QAction("Settings",self)
         self.settings.triggered.connect(self.optins_win)
-        toolbar.addAction(self.settings)
+        self.toolbar.addAction(self.settings)
         self.about = QAction("Help",self)
         self.about.triggered.connect(lambda : os.system(".\\HowToPlayMinesweeper.html"))
-        toolbar.addAction(self.about)
+        self.toolbar.addAction(self.about)
         self.about = QAction("About",self)
         self.about.triggered.connect(self.about_win)
-        toolbar.addAction(self.about)
+        self.toolbar.addAction(self.about)
         # layouts :================================================================
         # layout 1
         self.DispTime = timer()

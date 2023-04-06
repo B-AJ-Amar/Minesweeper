@@ -3,6 +3,12 @@ MainWindow {
 
 }
 
+QToolBar {
+    background-color: #fff;
+    border: 1px solid #fff;
+
+}
+
 
 ResetButton { 
     background-color: #FAFBFC;  

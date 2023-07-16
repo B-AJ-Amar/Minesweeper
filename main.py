@@ -17,7 +17,7 @@ class ResetButton(QPushButton):
     
         self.setIcon(QIcon('./icons/characters/TechGeeks.png'))
         
-        self.setIconSize(QtCore.QSize(60, 26.2))
+        self.setIconSize(QtCore.QSize(60, 26))
         self.clicked.connect( self.Reset)
     
     def Reset(self,btns=1):
